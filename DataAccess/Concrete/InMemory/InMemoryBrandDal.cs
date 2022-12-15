@@ -9,10 +9,10 @@ namespace DataAccess.Concrete.InMemory
 {
     public class InMemoryBrandDal : IBrandDal
     {
-        List<Brand> _brand;
+        List<Brand> _brands;
         public InMemoryBrandDal()
         {
-            _brand = new List<Brand>
+            _brands = new List<Brand>
             {
                 new Brand{BrandId=1,BrandName="Mercedes"},
                 new Brand{BrandId=2,BrandName="Bmw"},
@@ -23,23 +23,23 @@ namespace DataAccess.Concrete.InMemory
 
         public void Add(Brand brand)
         {
-            _brand.Add(brand);
+            _brands.Add(brand);
         }
 
         public void Delete(Brand brand)
         {
             Brand brandToDelete = _brand.SingleOrDefault(p => p.BrandId == brand.BrandId);
-            _brand.Remove(brandToDelete);
+            _brands.Remove(brandToDelete);
         }
 
         public List<Brand> GetAll()
         {
-            return _brand;
+            return _brands;
         }
 
         public void Update(Brand brand)
         {
-            Brand brandToUpdate = _brand.SingleOrDefault(p => p.BrandId == brand.BrandId);
+            Brand brandToUpdate = _brands.SingleOrDefault(p => p.BrandId == brand.BrandId);
             brandToUpdate.BrandName = brand.BrandName;
         }
     }

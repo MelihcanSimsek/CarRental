@@ -28,7 +28,7 @@ namespace DataAccess.Concrete.InMemory
 
         public void Delete(Brand brand)
         {
-            Brand brandToDelete = _brand.SingleOrDefault(p => p.BrandId == brand.BrandId);
+            Brand brandToDelete = _brands.SingleOrDefault(p => p.BrandId == brand.BrandId);
             _brands.Remove(brandToDelete);
         }
 

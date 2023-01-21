@@ -43,7 +43,7 @@ namespace DataAccess.Concrete.InMemory
             return _colors;
         }
 
-        public List<Color> GetAll(Expression<Func<Color, bool>> filter = null)
+        public List<Color> GetAll(Expression<Func<Color, bool>>? filter = null)
         {
             throw new NotImplementedException();
         }

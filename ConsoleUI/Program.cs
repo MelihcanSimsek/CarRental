@@ -1,7 +1,6 @@
 ﻿using Business.Concrete;
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
-using Entities.Abstract;
 using Entities.Concrete;
 
 namespace ConsoleUI
@@ -10,13 +9,28 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
+            //CarTest();
+            BrandManager brandManager = new BrandManager(new EfBrandDal());
+            brandManager.Add(new Brand { BrandId = 10, BrandName = "Ferrari" });
+            ColorManager colorManager = new ColorManager(new EfColorDal());
+            colorManager.Delete(new Color { ColorId = 6, ColorName = "Orange" });
+            CarManager carManager = new CarManager(new EfCarDal());
+            foreach (var carDetail in carManager.GetCarDetails())
+            {
+                Console.WriteLine(carDetail.BrandName+" "+carDetail.ColorName+" "+carDetail.ModelYear+" "+carDetail.CarDescription+" "+carDetail.DailyPrice);
+            }
+            Console.ReadKey();
+        }
+
+        private static void CarTest()
+        {
             CarManager carManager = new CarManager(new EfCarDal());
             foreach (var item in carManager.GetAll())
             {
-                Console.WriteLine("{0} {1} {2} {3} {4} {5}", item.CarId,item.BrandId,item.ColorId,item.ModelYear,item.DailyPrice,item.CarDescription);
+                Console.WriteLine("{0} {1} {2} {3} {4} {5}", item.CarId, item.BrandId, item.ColorId, item.ModelYear, item.DailyPrice, item.CarDescription);
             }
             Console.WriteLine("\n");
-            foreach (var item in carManager.GetByDailyPrice(1500,4000))
+            foreach (var item in carManager.GetByDailyPrice(1500, 4000))
             {
                 Console.WriteLine("{0} {1} {2} {3} {4} {5}", item.CarId, item.BrandId, item.ColorId, item.ModelYear, item.DailyPrice, item.CarDescription);
             }
@@ -26,8 +40,6 @@ namespace ConsoleUI
             {
                 Console.WriteLine("{0} {1} {2} {3} {4} {5}", item.CarId, item.BrandId, item.ColorId, item.ModelYear, item.DailyPrice, item.CarDescription);
             }
-
-            Console.ReadKey();
         }
     }
 }

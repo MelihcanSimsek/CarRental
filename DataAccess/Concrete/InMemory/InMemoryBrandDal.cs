@@ -43,7 +43,7 @@ namespace DataAccess.Concrete.InMemory
             return _brands;
         }
 
-        public List<Brand> GetAll(Expression<Func<Brand, bool>> filter = null)
+        public List<Brand> GetAll(Expression<Func<Brand, bool>>? filter = null)
         {
             throw new NotImplementedException();
         }

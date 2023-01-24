@@ -11,15 +11,24 @@ namespace ConsoleUI
         {
             //CarTest();
             //TestMethod2();
+            // TestMethod3();
+            DateTime rentDate = new DateTime(2023, 1, 20, 12, 45, 10);
+            Rental rental = new Rental { RentalId = 1, CarId = 3, CustomerId = 1, RentDate = rentDate, ReturnDate = DateTime.Now };
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+           var result = rentalManager.Add(rental);
+            Console.WriteLine(result.Message);
+            Console.ReadKey();
+        }
 
+        private static void TestMethod3()
+        {
             CarManager carManager = new CarManager(new EfCarDal());
             var result = carManager.GetCarDetails();
-            Console.WriteLine(result.Message+" "+result.Success);
+            Console.WriteLine(result.Message + " " + result.Success);
             foreach (var item in result.Data)
             {
                 Console.WriteLine(item.BrandName);
             }
-            Console.ReadKey();
         }
 
         private static void TestMethod2()

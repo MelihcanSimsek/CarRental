@@ -25,7 +25,6 @@ namespace Business.Concrete
         [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
         {
-            
             var result = _rentalDal.Get(r => r.CarId == rental.CarId);
             var time = result == null ? -1 : DateTime.Compare((DateTime)result.ReturnDate, rental.RentDate);
             if (rental.ReturnDate == null || time >= 0)

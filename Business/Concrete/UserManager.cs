@@ -25,7 +25,6 @@ namespace Business.Concrete
         [ValidationAspect(typeof(UserValidator))]
         public IResult Add(User user)
         {
-           
             _userDal.Add(user);
             return new SuccessResult();
         }

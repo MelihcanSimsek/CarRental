@@ -24,12 +24,14 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<CustomerManager>().As<ICustomerService>();
             builder.RegisterType<UserManager>().As<IUserService>();
             builder.RegisterType<RentalManager>().As<IRentalService>();
+            builder.RegisterType<CarImageManager>().As<ICarImageService>();
             builder.RegisterType<EfCarDal>().As<ICarDal>();
             builder.RegisterType<EfBrandDal>().As<IBrandDal>();
             builder.RegisterType<EfColorDal>().As<IColorDal>();
             builder.RegisterType<EfRentalDal>().As<IRentalDal>();
             builder.RegisterType<EfCustomerDal>().As<ICustomerDal>();
             builder.RegisterType<EfUserDal>().As<IUserDal>();
+            builder.RegisterType<EfCarImageDal>().As<ICarImageDal>();
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 

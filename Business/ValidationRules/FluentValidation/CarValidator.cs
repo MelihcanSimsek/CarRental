@@ -18,7 +18,7 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(c => c.DailyPrice).GreaterThan(0);
             RuleFor(c => c.ModelYear).Must(StartWithTwo).WithMessage("Araba Modeli 21. yüzyıldan olmalıdır.");
         }
-
+       
         private bool StartWithTwo(string arg)
         {
             return arg.StartsWith("2");

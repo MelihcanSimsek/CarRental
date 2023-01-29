@@ -21,6 +21,6 @@ namespace Business.Constants
         public static string ColorsListed = "Renkler Listelendi";
         public static string RentalAdded = "Araba Kiralandı";
         public static string RentalAddError = "Araba Kiralama Hatası";
-
+        public static string ImageLimitExceded = "Resim Limiti Hatası";
     }
 }

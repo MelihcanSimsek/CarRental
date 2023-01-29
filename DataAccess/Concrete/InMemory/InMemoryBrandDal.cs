@@ -50,7 +50,7 @@ namespace DataAccess.Concrete.InMemory
 
         public void Update(Brand brand)
         {
-            Brand brandToUpdate = _brands.SingleOrDefault(p => p.BrandId == brand.BrandId);
+            Brand? brandToUpdate = _brands.SingleOrDefault(p => p.BrandId == brand.BrandId);
             brandToUpdate.BrandName = brand.BrandName;
         }
     }

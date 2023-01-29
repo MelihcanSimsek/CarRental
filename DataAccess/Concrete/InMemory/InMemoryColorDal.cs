@@ -29,7 +29,7 @@ namespace DataAccess.Concrete.InMemory
 
         public void Delete(Color color)
         {
-            Color colorToDelete = _colors.SingleOrDefault(p => p.ColorId == color.ColorId);
+            Color? colorToDelete = _colors.SingleOrDefault(p => p.ColorId == color.ColorId);
             _colors.Remove(colorToDelete);
         }
 

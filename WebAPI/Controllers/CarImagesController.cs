@@ -30,10 +30,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(IFormFile file,CarImage carImage)
+        public IActionResult Add([FromForm] IFormFile file, [FromForm] CarImage carImage)
         {
-            carImage.ImagePath = FileHelper.Upload(file, ImagePath.root);
-            var result = _carImageService.Add(carImage);
+            var result = _carImageService.Add(file,carImage);
             if (result.Success)
             {
                 return Ok(result);
@@ -53,9 +52,11 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("update")]
-        public IActionResult Update(CarImage carImage)
+        public IActionResult Update([FromForm] IFormFile file, [FromForm] int id)
         {
-            var result = _carImageService.Update(carImage);
+
+            var carImage = _carImageService.GetByImageId(id).Data;
+            var result = _carImageService.Update(file,carImage);
             if (result.Success)
             {
                 return Ok(result);
@@ -68,6 +69,17 @@ namespace WebAPI.Controllers
         {
             var result = _carImageService.GetImagesByCarId(id);
             if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getbyimageid")]
+        public IActionResult GetByImageId(int id)
+        {
+            var result = _carImageService.GetByImageId(id);
+            if(result.Success)
             {
                 return Ok(result);
             }

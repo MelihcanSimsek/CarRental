@@ -7,47 +7,43 @@ using System.Threading.Tasks;
 
 namespace Core.Utilities.Helpers
 {
-    public static class FileHelper
+    public class FileHelper
     {
-        public static string? Upload(IFormFile file, string root)
+        public static string Add(IFormFile file)
         {
+            var sourcePath = Path.GetTempFileName();
             if (file.Length > 0)
             {
-                if (!Directory.Exists(root))
+                using (var stream = new FileStream(sourcePath, FileMode.Create))
                 {
-                    Directory.CreateDirectory(root);
-                }
-                string extension = Path.GetExtension(file.FileName);
-                string guid = GuidHelper.Create();
-                string filePath = guid + extension;
-                using (FileStream fileStream = File.Create(root + filePath))
-                {
-                    file.CopyTo(fileStream);
-                    fileStream.Flush();
-                    return filePath;
+                    file.CopyTo(stream);
                 }
             }
-            return null;
 
+            FileInfo fileInfo = new FileInfo(file.FileName);
+            string fileExtension = fileInfo.Extension;
+            var path = GuidHelper.Create() + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + "_" + DateTime.Now.Year + fileExtension;
+            var result = NewPath(path);
+            File.Move(sourcePath, result);
+            return path;
         }
 
-        public static string? Update(IFormFile file, string filePath, string root)
+        public static void Delete(string path)
         {
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-            }
-            return Upload(file, root);
-
-
+            string fullPath = NewPath(path);
+            File.Delete(fullPath);
         }
 
-        public static void Delete(string filePath)
+        public static string Update(string oldPath, IFormFile file)
         {
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-            }
+            File.Delete(oldPath);
+            return Add(file);
+        }
+        private static string NewPath(string file)
+        {
+            string path = Environment.CurrentDirectory + @"\wwwroot\Uploads\images";
+            string result = $@"{path}\{file}";
+            return result;
         }
     }
 }

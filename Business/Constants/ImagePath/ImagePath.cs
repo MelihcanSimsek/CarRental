@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Business.Constants.ImagePath
 {
-    public static class ImagePath
+    public class ImagePath
     {
-        public static string root = @"wwwroot\Uploads\Images\";
+        public static string root = @"\wwwroot\Uploads\images";
     }
 }

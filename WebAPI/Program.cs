@@ -12,6 +12,7 @@ using Core.Utilities.Security.Jwt;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 
 namespace WebAPI
@@ -76,8 +77,10 @@ namespace WebAPI
                 app.UseSwaggerUI();
             }
 
+            
             app.UseCors(MyAllowSpecificOrigins);
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 

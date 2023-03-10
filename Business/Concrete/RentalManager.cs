@@ -3,6 +3,7 @@ using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -60,11 +61,54 @@ namespace Business.Concrete
             return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails());
         }
 
+        public IResult RulesForAdding(Rental rental)
+        {
+            var result = BusinessRules.Run(
+                CheckIfReturnDateIsBeforeRentDate(rental), CheckIfThisCarAlreadyRentedInSelectedDateRange(rental));
+            if(result != null)
+            {
+                return result;
+            }
+            return new SuccessResult(Message.SelectedDateRangeIsOkay);
+
+
+        }
+
         [ValidationAspect(typeof(RentalValidator))]
         public IResult Update(Rental rental)
         {
             _rentalDal.Update(rental);
             return new SuccessResult();
+        }
+
+        private IResult CheckIfThisCarAlreadyRentedInSelectedDateRange(Rental rental)
+        {
+            var result = _rentalDal.Get(r => r.CarId == rental.CarId 
+            && (r.RentDate.Date == rental.RentDate.Date 
+            || (r.RentDate.Date < rental.RentDate.Date 
+            && (r.ReturnDate == null
+            || ((DateTime)r.ReturnDate).Date > rental.RentDate.Date))));
+
+            if(result != null)
+            {
+                return new ErrorResult(Message.ThisCarAlreadyRentedInSelectedDateRange);
+            }
+            return new SuccessResult();
+
+        }
+
+        private IResult CheckIfReturnDateIsBeforeRentDate(Rental rental)
+        {
+            if(rental.ReturnDate != null)
+            {
+                if(rental.RentDate > rental.ReturnDate)
+                {
+
+                    return new ErrorResult(Message.ReturnDateIsBeforeRentDate);
+                }
+            }
+            return new SuccessResult();
+
         }
     }
 }

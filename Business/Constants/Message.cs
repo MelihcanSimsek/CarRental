@@ -34,5 +34,14 @@ namespace Business.Constants
         public static string UserAlreadyExists = "Kullanıcı Mevcut";
         public static string AccessTokenCreated = "Token Oluşturuldu";
         public static string AuthorizationDenied = "Yetkiniz Yok";
+        public static string ThisCarAlreadyRentedInSelectedDateRange = "Seçilen aralıkta araba zaten kiralanmış";
+        public static string ReturnDateIsBeforeRentDate = "Dönüş tarihi kiralama tarihinden önce hatası";
+        public static string SelectedDateRangeIsOkay = "Tarih aralığı uygun";
+        public static string InvalidCardNumber = "Geçersiz kart numarası";
+        public static string PayIsSuccessfull = "Ödeme işlemi başarılı";
+        public static string CardInformationIsIncorrect = "Kart bilgileri hatalı";
+        public static string InvalidCardYear = "Geçersiz kart yılı";
+        public static string InvalidCardMonth = "Geçersiz kart ayı";
+
     }
 }

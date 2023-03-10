@@ -50,6 +50,18 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+
+        [HttpPost("rulesforadding")]
+        public IActionResult RulesForAdding(Rental rental)
+        {
+            var result = _rentalService.RulesForAdding(rental);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         [HttpPost("delete")]
         public IActionResult Delete(Rental rental)
         {

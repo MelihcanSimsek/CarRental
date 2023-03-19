@@ -38,6 +38,11 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Color>>(_colorDal.GetAll(), Message.ColorsListed);
         }
 
+        public IDataResult<Color> GetById(int id)
+        {
+            return new SuccessDataResult<Color>(_colorDal.Get(c => c.ColorId == id));
+        }
+
         [ValidationAspect(typeof(ColorValidator))]
         public IResult Update(Color color)
         {

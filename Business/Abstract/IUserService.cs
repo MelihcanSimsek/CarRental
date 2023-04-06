@@ -18,6 +18,8 @@ namespace Business.Abstract
         IDataResult<User> GetById(int userId);
         IDataResult<User> GetByEmail(string email);
         IDataResult<List<OperationClaim>> GetClaims(User user);
+
+
         
     }
 }

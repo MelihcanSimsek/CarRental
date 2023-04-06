@@ -42,6 +42,6 @@ namespace Business.Constants
         public static string CardInformationIsIncorrect = "Kart bilgileri hatalı";
         public static string InvalidCardYear = "Geçersiz kart yılı";
         public static string InvalidCardMonth = "Geçersiz kart ayı";
-
+        public static string UserUpdated = "Kullanıcı Güncellendi";
     }
 }

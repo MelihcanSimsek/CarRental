@@ -13,7 +13,7 @@ namespace ConsoleUI
             //TestMethod2();
             // TestMethod3();
             DateTime rentDate = new DateTime(2023, 1, 20, 12, 45, 10);
-            Rental rental = new Rental { RentalId = 1, CarId = 3, CustomerId = 1, RentDate = rentDate, ReturnDate = DateTime.Now };
+            Rental rental = new Rental { RentalId = 1, CarId = 3, UserId = 1, RentDate = rentDate, ReturnDate = DateTime.Now };
             RentalManager rentalManager = new RentalManager(new EfRentalDal());
            var result = rentalManager.Add(rental);
             Console.WriteLine(result.Message);

@@ -12,7 +12,7 @@ namespace Entities.DTOs
         public string? ColorName { get; set; }
         public string? BrandName { get; set; }
         public string? CarName { get; set; }
-        public string? CustomerName { get; set; }
+        public string? UserName { get; set; }
         public string? ModelYear { get; set; }
         public string? CarDescription { get; set; }
         public DateTime RentDate { get; set; }

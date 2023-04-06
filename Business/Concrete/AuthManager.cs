@@ -32,11 +32,11 @@ namespace Business.Concrete
         public IDataResult<User> Login(UserForLoginDto userForLoginDto)
         {
             var userToCheck = _userService.GetByEmail(userForLoginDto.Email).Data;
-            if(userToCheck == null)
+            if (userToCheck == null)
             {
                 return new ErrorDataResult<User>(Message.UserNotFound);
             }
-            if(!HashingHelper.VerifyPasswordHash(userForLoginDto.Password,userToCheck.PasswordHash,userToCheck.PasswordSalt))
+            if (!HashingHelper.VerifyPasswordHash(userForLoginDto.Password, userToCheck.PasswordHash, userToCheck.PasswordSalt))
             {
                 return new ErrorDataResult<User>(Message.PasswordError);
             }
@@ -63,17 +63,84 @@ namespace Business.Concrete
 
         public IDataResult<User> UpdateUserInformation(UserForUpdateDto userForUpdateDto)
         {
+           
+            var userToCheck = _userService.GetById(userForUpdateDto.Id).Data;
+            if(!HashingHelper.VerifyPasswordHash(userForUpdateDto.CurrentPassword,userToCheck.PasswordHash,userToCheck.PasswordSalt))
+            {
+                return new ErrorDataResult<User>(Message.PasswordError);
+            }
 
-
+            if(userForUpdateDto.NewPassword.Length > 0)
+            {
+               return UpdateInformationWithPassword(userForUpdateDto, userToCheck);
+            }
+            else
+            {
+               return UpdateInformation(userForUpdateDto, userToCheck);
+            }
         }
+
+    
 
         public IResult UserExists(string email)
         {
-            if(_userService.GetByEmail(email).Data != null)
+            if (_userService.GetByEmail(email).Data != null)
             {
                 return new SuccessResult(Message.UserAlreadyExists);
             }
             return new ErrorResult();
         }
+
+        private IDataResult<User> UpdateInformationWithPassword(UserForUpdateDto userForUpdateDto,User user)
+        {
+            byte[] passwordHash, passwordSalt;
+           if(user.Email != userForUpdateDto.Email)
+            {
+                var userToCheck = _userService.GetByEmail(userForUpdateDto.Email).Data;
+                if(userToCheck != null)
+                {
+                    return new ErrorDataResult<User>(Message.UserAlreadyExists);
+                }
+            }
+            HashingHelper.CreatePasswordHash(userForUpdateDto.NewPassword, out passwordHash, out passwordSalt);
+            var userModel = new User
+            {
+                Email = userForUpdateDto.Email,
+                FirstName = userForUpdateDto.FirstName,
+                LastName = userForUpdateDto.LastName,
+                Id = userForUpdateDto.Id,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt,
+                Status = userForUpdateDto.Status,
+            };
+            _userService.Update(userModel);
+            return new SuccessDataResult<User>(userModel, Message.UserUpdated);
+        }
+
+        private IDataResult<User> UpdateInformation(UserForUpdateDto userForUpdateDto, User user)
+        {
+            if(user.Email != userForUpdateDto.Email)
+            {
+                var userToCheck = _userService.GetByEmail(userForUpdateDto.Email).Data;
+                if(userToCheck != null)
+                {
+                    return new ErrorDataResult<User>(Message.UserAlreadyExists);
+                }
+            }
+            var userModel = new User
+            {
+
+                Email = userForUpdateDto.Email,
+                FirstName = userForUpdateDto.FirstName,
+                Id = userForUpdateDto.Id,
+                LastName = userForUpdateDto.LastName,
+                PasswordHash = user.PasswordHash,
+                PasswordSalt = user.PasswordSalt,
+                Status = userForUpdateDto.Status
+            };
+            _userService.Update(userModel);
+            return new SuccessDataResult<User>(userModel, Message.UserUpdated);
+        }
     }
 }
+

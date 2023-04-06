@@ -61,6 +61,12 @@ namespace Business.Concrete
             return new SuccessDataResult<User>(user, Message.UserRegistered);
         }
 
+        public IDataResult<User> UpdateUserInformation(UserForUpdateDto userForUpdateDto)
+        {
+
+
+        }
+
         public IResult UserExists(string email)
         {
             if(_userService.GetByEmail(email).Data != null)
